@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.css';
+import Cabecera from './componentes/cabecera.component';
+import Principal from './componentes/principal.component';
+import Pie from './componentes/pie.component';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
+      <Cabecera/>
+      <Principal/>
+      <Pie/>
     </div>
   );
 }

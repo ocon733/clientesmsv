@@ -1,0 +1,33 @@
+section {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #000000;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    
+        
+}
+
+.caja1{
+    background-color: blue;
+    height: 200px;
+    flex-grow: 0;
+    flex-basis: 200px;
+}
+
+.caja2 {
+    background-color: green;
+    height: 100px;
+    flex-grow: 0;
+}
+
+.caja3 {
+    background-color: red;
+    height:250px;
+    align-self: flex-start;
+    flex-grow: 0;
+}
