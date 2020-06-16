@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 
 export default class Listado extends Component {
     render() {
         return (
-            <div>
-                listado
-            </div>
+            <h4>Listado de clientes MSV<hr/></h4>
         )
     }
 }

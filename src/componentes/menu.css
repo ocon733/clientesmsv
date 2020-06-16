@@ -1,0 +1,28 @@
+.menu{
+    background-color: #f2f7f9;
+    border-top: 3px solid #2986e2;
+    display:flex;
+    justify-content: flex-end;
+    align-content:space-around;
+}
+
+.menu-item{
+    padding:3px 5px 3px 5px ;
+    margin: 3px 5px 3px 5px ;
+    
+   
+}
+
+.menu-separador{
+    color:#CCCCCC;
+    padding:3px 5px 3px 5px ;
+    margin: 3px 5px 3px 5px ;
+}
+
+a {
+    text-decoration: none;
+    color: #535353;
+}
+a:hover{
+    color:#f26529;
+}

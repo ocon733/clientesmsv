@@ -6,7 +6,7 @@ import Pie from './componentes/pie.component';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Cabecera/>
       <Principal/>
       <Pie/>

@@ -5,9 +5,7 @@ export default class Cabecera extends Component {
     render() {
         return (
             <header className="cabecera-header">
-            <p>
-              cabecera
-            </p>
+            <img src="Logomsv.png" alt="logomsv"/>
           </header>
     
         )
