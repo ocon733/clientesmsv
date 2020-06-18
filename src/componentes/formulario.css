@@ -12,22 +12,3 @@ section {
         
 }
 
-.caja1{
-    background-color: blue;
-    height: 200px;
-    flex-grow: 0;
-    flex-basis: 200px;
-}
-
-.caja2 {
-    background-color: green;
-    height: 100px;
-    flex-grow: 0;
-}
-
-.caja3 {
-    background-color: red;
-    height:250px;
-    align-self: flex-start;
-    flex-grow: 0;
-}
