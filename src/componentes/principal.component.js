@@ -10,7 +10,7 @@ export default class Principal extends Component {
             <BrowserRouter>
                 <div>
                     <Menu/>
-                    {/* <Redirect from="/" to="/login" />*/}
+                    { <Redirect from="/" to="/login" />}
                     <Switch>
                         <Route path="/listado" component={Listado}/>
                         <Route path="/formulario" component={Formulario}/>
