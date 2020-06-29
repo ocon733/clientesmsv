@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Menu from './menu.component';
 import Listado from './listado.component';
 import Formulario from './formulario.component';
@@ -10,7 +10,7 @@ export default class Principal extends Component {
             <BrowserRouter>
                 <div>
                     <Menu/>
-                    { <Redirect from="/" to="/login" />}
+                   
                     <Switch>
                         <Route path="/listado" component={Listado}/>
                         <Route path="/formulario" component={Formulario}/>

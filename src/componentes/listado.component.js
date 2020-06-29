@@ -42,7 +42,7 @@ export default class Listado extends Component {
                 </thead>
                 <tbody>
                 {this.state.items.map(item=>(
-                    <tr Key = {item[0]}>
+                    <tr key = {item[0]}>
                         <td><a href={this.irDetalle(item[0])}>{item[0]}</a></td>
                         <td>{item[1]}</td>
                         <td>{item[2]}</td>
