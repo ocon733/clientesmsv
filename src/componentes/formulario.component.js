@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './formulario.css';
+import Util from '../util_fechas.js';
 
 export default class Formulario extends Component {
 
@@ -26,43 +27,37 @@ export default class Formulario extends Component {
         cuenta_bancaria:"",
         observaciones:"",
         direcciones:[],
-            /*
-            {
-            id:null,
-            direccion: "",
-            tipo_via: "",
-            numero: "",
-            puerta: "",
-            piso: "",
-            provincia: "",
-            localidad:"",
-            cp:"",
-            tipo_domicilio:""
-        }],
-        */
-        servicios:[]
-            /*
-            {
-            id:null,
-            presupuesto:null,
-            info_presupuesto:null,
-            solicitud_informacion:"",
-            info_solicitud_informacion:"",
-            contratacion_servicio:null,
-            eyaculacion_precoz:null,
-            info_eyaculacion_precoz:"",
-            curvatura_pene:null,
-            info_curvatura_pene:null,
-            disfuncion_erectil:null,
-            info_disfuncion_erectil:"",
-            falta_deseo:null,
-            info_falta_deseo:null,
-            enfermedades_transmision:null,
-            info_enfermedades_transmision:null
-            */
+        servicios:[],
+        nueva_direccion:true,
+        nuevo_servicio:true,
 
+        dir_tipo_via:"",
+        dir_direccion:"",
+        dir_numero:"",
+        dir_puerta:"",
+        dir_piso:"",
+        dir_provincia:"",
+        dir_localidad:"",
+        dir_cp:"",
+        dir_tipo_domicilio:"",
+
+        serv_presupuesto:false,
+        serv_info_presupuesto:"",
+        serv_solicitud_informacion:false,
+        serv_info_solicitud_informacion:"",
+        serv_contratacion_servicio:false,
+        serv_info_contratacion_servicio:"",
+        serv_eyaculacion_precoz:false,
+        serv_info_eyaculacion_precoz:"",
+        serv_curvatura_pene:false,
+        serv_info_curvatura_pene:"",
+        serv_disfuncion_erectil:false,
+        serv_info_disfuncion_erectil:"",
+        serv_falta_deseo:false,
+        serv_info_falta_deseo:"",
+        serv_enfermedades_transmision:false,
+        serv_info_enfermedades_transmision:""
         }
-
 
     }
 
@@ -80,7 +75,7 @@ export default class Formulario extends Component {
             .then(res => {
                 
                 if ( this.montado){
-                    debugger
+                    
                    
                     this.setState({id:res.id_cliente});
                     this.setState({fecha_alta:res.fecha_alta});
@@ -114,24 +109,12 @@ export default class Formulario extends Component {
                     }
                     this.setState({servicios:serv});
 
+                    this.setState({nueva_direccion:false});
+                    this.setState({nuevo_servicio:false});
+
                 }
 
             })
-        }
-    }
-
-    fromdateJavaToDate = (date) =>{
-        
-        if  ( date !== ""){
-            let fecha = new Date(date);
-            let dia =  fecha.getDate().toString();
-            if ( dia.length === 1){  dia = "0" + dia; }
-            let mes = (fecha.getMonth()+1).toString();
-            if ( mes.length === 1){  mes = "0" + mes; }
-            let txt = fecha.getFullYear()+ "-" + mes + "-" + dia;
-            return txt;
-        }else {
-            return "";
         }
     }
 
@@ -139,12 +122,67 @@ export default class Formulario extends Component {
         e.preventDefault();
     }
 
+
+    editDireccion (index) {
+        this.setState({nueva_direccion:true});
+        this.setState({dir_direccion: this.state.direcciones[index].direccion});
+        this.setState({dir_cp: this.state.direcciones[index].cp});
+        this.setState({dir_localidad: this.state.direcciones[index].localidad});
+        this.setState({dir_numero: this.state.direcciones[index].numero});
+        this.setState({dir_piso: this.state.direcciones[index].piso});
+        this.setState({dir_provincia: this.state.direcciones[index].provincia});
+        this.setState({dir_puerta: this.state.direcciones[index].puerta});
+        this.setState({dir_tipo_via: this.state.direcciones[index].tipo_via});
+        this.setState({dir_tipo_domicilio: this.state.direcciones[index].tipo_domicilio});
+    }
+
+    editServicio ( index) {
+        debugger
+        this.setState({nuevo_servicio:true});
+        this.setState({serv_presupuesto:this.valueToBoolean(this.state.servicios[index].presupuesto)});
+        this.setState({serv_info_presupuesto : this.state.servicios[index].info_presupuesto});
+        this.setState({serv_solicitud_informacion:this.valueToBoolean(this.state.servicios[index].solicitud_informacion)});
+        this.setState({serv_info_solicitud_informacion:this.state.servicios[index].info_solicitud_informacion});
+        this.setState({serv_contratacion_servicio:this.valueToBoolean(this.state.servicios[index].contratacion_servicio)});
+        this.setState({serv_info_contratacion_servicio:this.state.servicios[index].info_contratacion_servicio});
+        this.setState({serv_eyaculacion_precoz:this.valueToBoolean(this.state.servicios[index].eyaculacion_precoz)});
+        this.setState({serv_info_eyaculacion_precoz:this.state.servicios[index].info_eyaculacion_precoz});
+        this.setState({serv_curvatura_pene:this.valueToBoolean(this.state.servicios[index].curvatura_pene)});
+        this.setState({serv_info_curvatura_pene:this.state.servicios[index].info_curvatura_pene});
+        this.setState({serv_disfuncion_erectil:this.valueToBoolean(this.state.servicios[index].disfuncion_erectil)});
+        this.setState({serv_info_disfuncion_erectil:this.state.servicios[index].info_disfuncion_erectil});
+        this.setState({serv_falta_deseo:this.valueToBoolean(this.state.servicios[index].falta_deseo)});
+        this.setState({serv_info_falta_deseo:this.state.servicios[index].info_falta_deseo});
+        this.setState({serv_enfermedades_transmision:this.valueToBoolean(this.state.servicios[index].enfermedades_transmision)});
+        this.setState({serv_info_enfermedades_transmision:this.state.servicios[index].info_enfermedades_transmision});
+
+    }
+
+    valueToBoolean (valor){
+        if ( valor === "S")
+         {
+             return true;
+        }
+        else if ( valor ==="N") {
+             return false; 
+        }else{
+            return false;
+        }
+    }
+
+    booleanToValue (valor){
+        if ( valor) { return "S"; }
+        else if ( valor === "S"){ return true; }
+    }
+
+
+
     render() {
         return (
             <form onSubmit={this.handlerSubmit}>
                  <section>
                 <div className="panel">
-         
+                <h4 className="formulario-titulo">Datos Cliente<hr/></h4>
                    <div className="form-item">
                         <label htmlFor="nombre">Nombre : </label>
                         <input name="nombre" size="30" required id="nombre" type="text" 
@@ -172,25 +210,26 @@ export default class Formulario extends Component {
                     </div>
                     
                     <div className="form-item">
-                        <label htmlFor="tipodoi">Tipo de DOI : </label>
-                        <select name="tipodoi" id="tipodoi" onChange={ e => this.setState({tipodoi:e.target.value})} value={this.state.tipodoi}>
+                        <label htmlFor="tipo_doi">Tipo de DOI : </label>
+                        <select name="tipo_doi" id="tipo_doi" onChange={ e => this.setState({tipo_doi:e.target.value})} 
+                        value={this.state.tipo_doi}>
                             <option value=''>- Seleccione el tipo de documento</option>
-                            <option value='nif'>N.I.F.</option>
-                            <option value='nie'>N.I.E.</option>
-                            <option value='cif'>C.I.F.</option>
+                            <option value='NIF'>N.I.F.</option>
+                            <option value='NIE'>N.I.E.</option>
+                            <option value='CIF'>C.I.F.</option>
                         </select>
                     </div>
 
                     <div className="form-item">
                         <label htmlFor="doi">D.O.I. : </label>
-                        <input name="doi" size="5"  id="doi" type="text" 
+                        <input name="doi" size="30"  id="doi" type="text" 
                         value={this.state.doi} onChange={ e => this.setState({doi:e.target.value})} />
                     </div>
 
                     <div className="form-item">
                         <label htmlFor="fechanacimiento">Fecha nacimiento :</label>
                         <input name="fecha_nacimiento"  id="fecha_nacimiento" type="date" 
-                        value={this.fromdateJavaToDate (this.state.fecha_nacimiento)} onChange={ e => this.setState({fecha_nacimiento:e.target.value})} />
+                        value={Util.fromdateJavaToDate (this.state.fecha_nacimiento)} onChange={ e => this.setState({fecha_nacimiento:e.target.value})} />
                     </div>
 
                     <div className="form-item">
@@ -250,15 +289,87 @@ export default class Formulario extends Component {
 
                 </div>
                 <div className="panel">
-                    <div style={{display:"none"}}>
-                        <label htmlFor="direccion">Dirección : </label>
-                        <input name="nombre" size="120" id="direccion" type="text" />
+                <h4 className="formulario-titulo">Direcciones<hr/></h4>
+                    <div className="formulario-tabla" style={this.state.nueva_direccion ? {display:"contents"} : {display:"none"}} >
+                       
+                        <div className="form-item">
+                            <label htmlFor="tipodomicilio">Tipo de domicilio : </label>
+                            <select name="tipodomicilio" id="tipodomicilio"
+                            onChange={ e => this.setState({dir_tipo_domicilio:e.target.value})} 
+                            value={this.state.dir_tipo_domicilio}>
+                                <option value=''>- Seleccione el tipo de domicilio - </option>
+                                <option value='HABITUAL'>Habitual</option>
+                                <option value='SEG_DOM'>Segunda residencia</option>
+                                <option value='FACT'>Facturación</option>
+                                <option value='TRABAJO'>Trabajo</option>
+                            </select>
+                        </div>
+
+                        <div className="form-item">
+                            <label htmlFor="tipovia">Tipo de Vía : </label>
+                            <select name="tipovia" id="tipovia"
+                            onChange={ e => this.setState({dir_tipo_via:e.target.value})} 
+                            value={this.state.dir_tipo_via} >
+                                <option value=''>- Seleccione el tipo de Vía - </option>
+                                <option value='CALLE'>Calle</option>
+                                <option value='PLAZA'>Plaza</option>
+                                <option value='CTRA'>Carretera</option>
+                                <option value='AVD'>Avenida</option>
+                            </select>
+                        </div>
+                        
+                       
+
+                        <div className="form-item">
+                            <label htmlFor="numero">Número : </label>
+                            <input name="numero" size="5" id="numero" type="text"
+                            value={this.state.dir_numero} onChange={ e => this.setState({dir_numero:e.target.value})} />
+                        </div>
+
+                        <div className="form-item">
+                            <label htmlFor="puerta">Puerta : </label>
+                            <input name="puerta" size="5" id="puerta" type="text"
+                             value={this.state.dir_puerta} onChange={ e => this.setState({dir_puerta:e.target.value})}/>
+                        </div>
+
+                        <div className="form-item">
+                            <label htmlFor="piso">Piso : </label>
+                            <input name="piso" size="5" id="piso" type="text" 
+                             value={this.state.dir_piso} onChange={ e => this.setState({dir_piso:e.target.value})}/>
+                        </div>
+
+                        <div className="form-item">
+                            <label htmlFor="provincia">Provincia : </label>
+                            <input name="provincia" size="30" id="provincia" type="text" 
+                             value={this.state.dir_provincia} onChange={ e => this.setState({dir_provincia:e.target.value})}/>
+                        </div>
+
+                         <div className="form-item">
+                            <label htmlFor="cp">Código postal : </label>
+                            <input name="cp" size="5" id="cp" type="text" 
+                             value={this.state.dir_cp} onChange={ e => this.setState({dir_cp:e.target.value})}/>
+                        </div>
+                        
+                        <div className="form-item" style={{width:"100%"}}>
+                            <label htmlFor="localidad">Localidad : </label>
+                            <input name="localidad" size="80" id="localidad" type="text" 
+                            value={this.state.dir_localidad} onChange={ e => this.setState({dir_localidad:e.target.value})}/> 
+                        </div>
+
+
+                        <div className="form-item" style={{width:"100%"}}>
+                            <label htmlFor="direccion">Direccion : </label>
+                            <input name="direccion" size="80" id="direccion" type="text" 
+                             value={this.state.dir_direccion} onChange={ e => this.setState({dir_direccion:e.target.value})}/>
+                        </div>
+
                     </div>
-                    <div>
-                    <h4>Direcciones<hr/></h4>
+                    <div className="formulario-tabla" style={this.state.nueva_direccion ? {display:"none"} : {display:"block"}}>
+                    
                     <table>
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Tipo de domicilio</th>
                                 <th>Tipo de vía</th>
                                 <th>Dirección</th>
@@ -271,8 +382,9 @@ export default class Formulario extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {this.state.direcciones.map(item=>(
+                        {this.state.direcciones.map((item, index)=>(
                             <tr key = {item.id}>
+                                <td className="listado-enlace"><a title="editar" onClick={() => this.editDireccion(index)}>{item.id}</a></td>
                                 <td>{item.tipo_domicilio}</td>
                                 <td>{item.tipo_via}</td>
                                 <td>{item.direccion}</td>
@@ -286,19 +398,103 @@ export default class Formulario extends Component {
                             ))}
                         </tbody>
                         </table>
-
+                        <button onClick={() => this.setState({nueva_direccion:true})}>Nueva dirección</button> 
                     </div>
                 </div>    
                 <div className="panel">
-                <div style={{display:"none"}}>
-                    <label htmlFor="presupuesto">Presupuesto : </label>
-                    <input name="presupuesto" id="presupuesto" type="checkbox"  />
+                <h4 className="formulario-titulo">Servicios<hr/></h4>
+                    <div className="formulario-tabla" style={this.state.nuevo_servicio ? {display:"contents"} : {display:"none"}}>
+                  
+                    <div className="form-item">
+                            <label htmlFor="solicitud_informacion"> Solicitud de información : </label>
+                            <input name="solicitud_informacion" id="solicitud_informacion" type="checkbox" 
+                            defaultChecked={this.state.serv_solicitud_informacion} onChange={ e => this.setState({serv_solicitud_informacion:e.target.value})}/> 
+                    </div>
+                    
+                        <textarea name="info_solicitud_informacion" id="info_solicitud_informacion"
+                            value={this.state.serv_info_solicitud_informacion} onChange={ e => this.setState({serv_info_solicitud_informacion:e.target.value})}> 
+                         </textarea>
+                   
+
+                    <div className="form-item">
+                            <label htmlFor="contratacion_servicio"> Contratación servicio : </label>
+                            <input name="contratacion_servicio" id="contratacion_servicio" type="checkbox" 
+                            defaultChecked={this.state.serv_contratacion_servicio} onChange={ e => this.setState({serv_contratacion_servicio:e.target.value})}/> 
+
+                    </div>
+                    
+                        <textarea name="info_contratacion_servicio" id="info_contratacion_servicio"
+                        value={this.state.serv_info_contratacion_servicio} onChange={ e => this.setState({serv_info_contratacion_servicio:e.target.value})}>
+                        </textarea>
+                  
+
+                    <div className="form-item">
+                            <label htmlFor="eyaculacion_precoz"> Eyaculación precoz : </label>
+                            <input name="eyaculacion_precoz" id="eyaculacion_precoz" type="checkbox" 
+                            defaultChecked={this.state.serv_eyaculacion_precoz} onChange={ e => this.setState({serv_eyaculacion_precoz:e.target.value})}/> 
+
+                    </div>
+                    
+                        <textarea name="info_eyaculacion_precoz" id="info_eyaculacion_precoz"
+                        value={this.state.serv_info_eyaculacion_precoz} onChange={ e => this.setState({serv_info_eyaculacion_precoz:e.target.value})}>
+                             </textarea>
+                 
+
+                    <div className="form-item">
+                            <label htmlFor="curvatura_pene"> Curvatura del pene : </label>
+                            <input name="curvatura_pene" id="curvatura_pene" type="checkbox" 
+                             defaultChecked={this.state.serv_curvatura_pene} onChange={ e => this.setState({serv_curvatura_pene:e.target.value})}/> 
+
+                    </div>
+                   
+                        <textarea name="info_curvatura_pene" id="info_curvatura_pene"
+                         value={this.state.serv_info_curvatura_pene} onChange={ e => this.setState({serv_info_curvatura_pene:e.target.value})}>
+                        </textarea>
+                  
+
+                    <div className="form-item">
+                            <label htmlFor="disfuncion_erectil"> Disfunción eréctil : </label>
+                            <input name="disfuncion_erectil" id="disfuncion_erectil" type="checkbox" 
+                             defaultChecked={this.state.serv_disfuncion_erectil} onChange={ e => this.setState({serv_disfuncion_erectil:e.target.value})}/> 
+
+                    </div>
+                    
+                        <textarea name="info_disfuncion_erectil" id="info_disfuncion_erectil"
+                        value={this.state.serv_info_disfuncion_erectil} onChange={ e => this.setState({serv_info_disfuncion_erectil:e.target.value})}>
+                         </textarea>
+                   
+
+                    <div className="form-item">
+                            <label htmlFor="falta_deseo"> Falta de deseo : </label>
+                            <input name="falta_deseo" id="falta_deseo" type="checkbox" 
+                            defaultChecked={this.state.serv_falta_deseo} onChange={ e => this.setState({serv_falta_deseo:e.target.value})}/>
+
+                    </div>
+                    
+                        <textarea name="info_falta_deseo" id="info_falta_deseo"
+                         value={this.state.serv_info_falta_deseo} onChange={ e => this.setState({serv_info_falta_deseo:e.target.value})}>
+                        </textarea>
+                    
+
+                    <div className="form-item">
+                            <label htmlFor="enfermedades_transmision"> Enfermedades de transmisión : </label>
+                            <input name="enfermedades_transmision" id="enfermedades_transmision" type="checkbox" 
+                            defaultChecked={this.state.enfermedades_transmision} onChange={ e => this.setState({serv_enfermedades_transmision:e.target.value})}/>
+
+                    </div>
+                   
+                        <textarea name="info_enfermedades_transmision" id="info_enfermedades_transmision"
+                         value={this.state.serv_info_enfermedades_transmision} onChange={ e => this.setState({serv_info_enfermedades_transmision:e.target.value})}>
+                        </textarea>
+    
+                    
                 </div>
-                <div>
-                    <h4>Servicios<hr/></h4>
+                <div className="formulario-tabla" style={this.state.nuevo_servicio ? {display:"none"} : {display:"contents"}}>
+                   
                     <table>
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Presupuesto</th>
                                 <th>Solicitud informacion</th>
                                 <th>Contratación</th>
@@ -310,20 +506,22 @@ export default class Formulario extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {this.state.servicios.map(item=>(
+                        {this.state.servicios.map((item, index)=>(
                             <tr key = {item.id}>
-                                <td>{item.presupuesto} - {item.info_presupuesto}  </td>
-                                <td>{item.solicitud_informacion} - {item.info_solicitud_informacion}</td>
-                                <td>{item.contratacion} - {item.info_contratacion}</td>
-                                <td>{item.eyaculacion_precoz} - {item.info_eyaculacion_precoz}</td>
-                                <td>{item.curvatura_pene} - {item.info_curvatura_pene}</td>
-                                <td>{item.disfuncion_erectil} - {item.info_disfuncion_erectil}</td>
-                                <td>{item.falta_deseo} - {item.info_falta_deseo}</td>
-                                <td>{item.enfermedades_transmision} - {item.info_enfermedades_transmision}</td>
+                                <td className="listado-enlace"><a onClick={ () => this.editServicio(index)} >{item.id}</a></td>
+                                <td>({item.presupuesto})  {item.info_presupuesto}  </td>
+                                <td>({item.solicitud_informacion})  {item.info_solicitud_informacion}</td>
+                                <td>({item.contratacion_servicio})  {item.info_contratacion_servicio}</td>
+                                <td>({item.eyaculacion_precoz})  {item.info_eyaculacion_precoz}</td>
+                                <td>({item.curvatura_pene})  {item.info_curvatura_pene}</td>
+                                <td>({item.disfuncion_erectil})  {item.info_disfuncion_erectil}</td>
+                                <td>({item.falta_deseo})  {item.info_falta_deseo}</td>
+                                <td>({item.enfermedades_transmision})  {item.info_enfermedades_transmision}</td>
                             </tr>
                             ))}
                         </tbody>
                         </table>
+                        <button onClick={() =>this.setState({nuevo_servicio:true})}>Nuevo servicio</button>
                         </div>
                     </div>
                 </section>

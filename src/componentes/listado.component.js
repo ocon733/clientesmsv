@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './listado.css';
-
+import Util from '../util_fechas.js';
 
 export default class Listado extends Component {
     state = {
@@ -14,18 +14,18 @@ export default class Listado extends Component {
             this.setState({items: res});
         })
     }
-
+/*
     fromdateJavaTojavascript = (date) =>{
         let fecha = new Date(date);
         return fecha.getDate() + "/" + (fecha.getMonth()+1) + "/" + fecha.getFullYear();
     }
-
+*/
     irDetalle = (id) => "/cliente/" + id;
 
     render() {
         return (
             <div>
-            <h4>Listado de clientes MSV<hr/></h4>
+            <h4>&nbsp;Listado de clientes MSV<hr/></h4>
             <table>
                 <thead>
                     <tr>
@@ -34,16 +34,16 @@ export default class Listado extends Component {
                         <th>Nombre</th>
                         <th>Apellidos</th>
                         <th>DOI</th>
-                        <th>Telefono</th>
+                        <th>Teléfono</th>
                         <th>Provincia</th>
-                        <th>Municipio</th>
+                        <th>Localidad</th>
                         <th>Fecha alta</th>
                     </tr>
                 </thead>
                 <tbody>
                 {this.state.items.map(item=>(
                     <tr key = {item[0]}>
-                        <td><a href={this.irDetalle(item[0])}>{item[0]}</a></td>
+                        <td className="listado-enlace"><a title="Ver detalle" href={this.irDetalle(item[0])}>{item[0]}</a></td>
                         <td>{item[1]}</td>
                         <td>{item[2]}</td>
                         <td>{item[3]} {item[4]}</td>
@@ -51,7 +51,7 @@ export default class Listado extends Component {
                         <td>{item[7]}</td>
                         <td>{item[8]}</td>
                         <td>{item[9]}</td>
-                        <td>{ this.fromdateJavaTojavascript(item[10])}</td>
+                        <td>{Util.fromdateJavaToJS(item[10])}</td>
                     </tr>    
                     ))}
                 </tbody>

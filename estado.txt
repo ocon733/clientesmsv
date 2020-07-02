@@ -1,0 +1,15 @@
+
+# formulario
+- textarea con tamaño fijo y ajustado
+- ajustes de formato y alineación en formulario de servicios
+- ajustes en campos textarea de servicios
+
+# guardar nuevo / actualizar
+- front-end actualizar datos de un cliente
+- back-end actualizar datos de un cliente
+- front-end actualizar datos de un servicio de cliente
+- back-end actualizar datos de un servicio de cliente
+
+- front-end actualizar datos de una dirección de cliente
+- back-end actualizar datos de una dirección de cliente
+

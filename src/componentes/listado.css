@@ -18,3 +18,9 @@ td {
     border-left: white;
     border-right: white;
 }
+
+.listado-enlace{
+    background-color: rgba(41, 134, 226, 0.7);
+    font-weight: bold;
+    cursor: pointer;
+}
