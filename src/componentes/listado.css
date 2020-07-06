@@ -24,3 +24,8 @@ td {
     font-weight: bold;
     cursor: pointer;
 }
+
+.listado-left{
+    text-align: left;
+    padding-left: 10px;
+}

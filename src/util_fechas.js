@@ -2,7 +2,7 @@
     export default class Util_fechas{
         static fromdateJavaToDate  (date) {
         
-            if  ( date !== ""){
+            if  ( date !== "" && date !== undefined && date !== null){
                 let fecha = new Date(date);
                 let dia =  fecha.getDate().toString();
                 if ( dia.length === 1){  dia = "0" + dia; }
@@ -19,7 +19,7 @@
 
         static fromdateJavaToJS  (date) {
         
-            if  ( date !== ""){
+            if  ( date !== "" && date !== undefined && date !== null){
                 let fecha = new Date(date);
                 let dia =  fecha.getDate().toString();
                 if ( dia.length === 1){  dia = "0" + dia; }
@@ -30,6 +30,16 @@
             }else {
                 return "";
             }
+        }
+
+        static hoyToJava(){
+            let fecha = new Date();
+            let dia =  fecha.getDate().toString();
+             if ( dia.length === 1){  dia = "0" + dia; }
+            let mes = (fecha.getMonth()+1).toString();
+            if ( mes.length === 1){  mes = "0" + mes; }
+            let txt = fecha.getFullYear()+ "-" + mes + "-" + dia;
+            return txt;
         }
     }
     

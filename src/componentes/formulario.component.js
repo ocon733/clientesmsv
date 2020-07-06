@@ -7,10 +7,10 @@ export default class Formulario extends Component {
     constructor(props){
         super(props);
        this.state = {
-        id : 0,
+        id_cliente : 0,
         nombre : "",
-        fecha_alta: null,
-        fecha_baja: null,
+        fecha_alta: "",
+        fecha_baja: "",
         apellido1: "",
         apellido2: "",
         fecha_nacimiento: "",
@@ -19,13 +19,30 @@ export default class Formulario extends Component {
         tipo_doi: "",
         tlf_contacto: "",
         tlf_trabajo: "",
-        tlf_casa_:"",
+        tlf_casa:"",
         tlf_otro: "",
         email_contacto: "",
         email_trabajo:"",
         email_particular:"",
         cuenta_bancaria:"",
         observaciones:"",
+        presupuesto:false,
+        info_presupuesto:"",
+        solicitud_informacion:false,
+        info_solicitud_informacion:"",
+        contratacion_servicio:false,
+        info_contratacion_servicio:"",
+        eyaculacion_precoz:false,
+        info_eyaculacion_precoz:"",
+        curvatura_pene:false,
+        info_curvatura_pene:"",
+        disfuncion_erectil:false,
+        info_disfuncion_erectil:"",
+        falta_deseo:false,
+        info_falta_deseo:"",
+        enfermedades_transmision:false,
+        info_enfermedades_transmision:"",
+
         direcciones:[],
         servicios:[],
         nueva_direccion:true,
@@ -40,23 +57,15 @@ export default class Formulario extends Component {
         dir_localidad:"",
         dir_cp:"",
         dir_tipo_domicilio:"",
+        dir_id_cliente:"",
+        dir_id:"",
 
-        serv_presupuesto:false,
-        serv_info_presupuesto:"",
-        serv_solicitud_informacion:false,
-        serv_info_solicitud_informacion:"",
-        serv_contratacion_servicio:false,
-        serv_info_contratacion_servicio:"",
-        serv_eyaculacion_precoz:false,
-        serv_info_eyaculacion_precoz:"",
-        serv_curvatura_pene:false,
-        serv_info_curvatura_pene:"",
-        serv_disfuncion_erectil:false,
-        serv_info_disfuncion_erectil:"",
-        serv_falta_deseo:false,
-        serv_info_falta_deseo:"",
-        serv_enfermedades_transmision:false,
-        serv_info_enfermedades_transmision:""
+        serv_id:"",
+        serv_id_cliente:"",
+        serv_tratamiento: "",
+        serv_info_tratamiento:"",
+        serv_fecha_inicio_tratamiento:"",
+        serv_fecha_fin_tratamiento:""
         }
 
     }
@@ -77,7 +86,7 @@ export default class Formulario extends Component {
                 if ( this.montado){
                     
                    
-                    this.setState({id:res.id_cliente});
+                    this.setState({id_cliente:res.id_cliente});
                     this.setState({fecha_alta:res.fecha_alta});
                     this.setState({fecha_baja:res.fecha_baja});
                     this.setState({nombre:res.nombre});
@@ -89,13 +98,32 @@ export default class Formulario extends Component {
                     this.setState({tipo_doi:res.tipo_doi});
                     this.setState({tlf_contacto:res.tlf_contacto});
                     this.setState({tlf_trabajo:res.tlf_trabajo});
-                    this.setState({tlf_casa_:res.tlf_casa});
+                    this.setState({tlf_casa:res.tlf_casa});
                     this.setState({tlf_otro:res.tlf_otro});
                     this.setState({email_contacto:res.email_contacto});
                     this.setState({email_trabajo:res.email_trabajo});
                     this.setState({email_particular:res.email_particular});
                     this.setState({cuenta_bancaria:res.cuenta_bancaria});
                     this.setState({observaciones:res.observaciones});
+
+               
+                    this.setState({presupuesto:this.valueToBoolean(res.presupuesto)});
+                    this.setState({info_presupuesto : res.info_presupuesto});
+                    this.setState({solicitud_informacion:this.valueToBoolean(res.solicitud_informacion)});
+                    this.setState({info_solicitud_informacion:res.info_solicitud_informacion});
+                    this.setState({contratacion_servicio:this.valueToBoolean(res.contratacion_servicio)});
+                    this.setState({info_contratacion_servicio:res.info_contratacion_servicio});
+                    this.setState({eyaculacion_precoz:this.valueToBoolean(res.eyaculacion_precoz)});
+                    this.setState({info_eyaculacion_precoz:res.info_eyaculacion_precoz});
+                    this.setState({curvatura_pene:this.valueToBoolean(res.curvatura_pene)});
+                    this.setState({info_curvatura_pene:res.info_curvatura_pene});
+                    this.setState({disfuncion_erectil:this.valueToBoolean(res.disfuncion_erectil)});
+                    this.setState({info_disfuncion_erectil:res.info_disfuncion_erectil});
+                    this.setState({falta_deseo:this.valueToBoolean(res.falta_deseo)});
+                    this.setState({info_falta_deseo:res.info_falta_deseo});
+                    this.setState({enfermedades_transmision:this.valueToBoolean(res.enfermedades_transmision)});
+                    this.setState({info_enfermedades_transmision:res.info_enfermedades_transmision});
+
 
                     let dir = [];
                     for (let i = 0; i < res.direcciones.length; i++) {        
@@ -118,8 +146,50 @@ export default class Formulario extends Component {
         }
     }
 
-    handlerSubmit = (e) => {
+    handlerSubmitClientes = (e) => {
+        
         e.preventDefault();
+        const data = new FormData ( e.target);
+        fetch("http://localhost:8081/nuevocliente", {
+            method: 'POST', 
+            body: data         
+        })
+        .then(res=> res.json())
+        .then(res => {
+           window.location.href ="/cliente/"+ res;
+        })
+        .catch(error => console.error('Error:', error))
+        .then(response => alert('Guardado correctamente '));
+
+    }
+
+    handlerSubmitDirecciones = (e) => {
+        e.preventDefault();
+        const data = new FormData ( e.target);
+        fetch("http://localhost:8081/nuevadir", {
+            method: 'POST', 
+            body: data         
+        })
+        .then(res=> res.json())
+        .then(res => {
+           window.location.href ="/cliente/"+ this.state.id_cliente;
+        })
+        .catch(error => console.error('Error:', error))
+        .then(response => alert('Guardado correctamente '));
+    }
+    handlerSubmitServicios = (e) => {
+        e.preventDefault();
+        const data = new FormData ( e.target);
+        fetch("http://localhost:8081/nuevoserv", {
+            method: 'POST', 
+            body: data         
+        })
+        .then(res=> res.json())
+        .then(res => {
+           window.location.href ="/cliente/"+ this.state.id_cliente;
+        })
+        .catch(error => console.error('Error:', error))
+        .then(response => alert('Guardado correctamente '));
     }
 
 
@@ -134,54 +204,44 @@ export default class Formulario extends Component {
         this.setState({dir_puerta: this.state.direcciones[index].puerta});
         this.setState({dir_tipo_via: this.state.direcciones[index].tipo_via});
         this.setState({dir_tipo_domicilio: this.state.direcciones[index].tipo_domicilio});
+        this.setState({dir_id_cliente: this.state.direcciones[index].id_cliente});
+        this.setState({dir_id: this.state.direcciones[index].id});
     }
 
     editServicio ( index) {
-        debugger
         this.setState({nuevo_servicio:true});
-        this.setState({serv_presupuesto:this.valueToBoolean(this.state.servicios[index].presupuesto)});
-        this.setState({serv_info_presupuesto : this.state.servicios[index].info_presupuesto});
-        this.setState({serv_solicitud_informacion:this.valueToBoolean(this.state.servicios[index].solicitud_informacion)});
-        this.setState({serv_info_solicitud_informacion:this.state.servicios[index].info_solicitud_informacion});
-        this.setState({serv_contratacion_servicio:this.valueToBoolean(this.state.servicios[index].contratacion_servicio)});
-        this.setState({serv_info_contratacion_servicio:this.state.servicios[index].info_contratacion_servicio});
-        this.setState({serv_eyaculacion_precoz:this.valueToBoolean(this.state.servicios[index].eyaculacion_precoz)});
-        this.setState({serv_info_eyaculacion_precoz:this.state.servicios[index].info_eyaculacion_precoz});
-        this.setState({serv_curvatura_pene:this.valueToBoolean(this.state.servicios[index].curvatura_pene)});
-        this.setState({serv_info_curvatura_pene:this.state.servicios[index].info_curvatura_pene});
-        this.setState({serv_disfuncion_erectil:this.valueToBoolean(this.state.servicios[index].disfuncion_erectil)});
-        this.setState({serv_info_disfuncion_erectil:this.state.servicios[index].info_disfuncion_erectil});
-        this.setState({serv_falta_deseo:this.valueToBoolean(this.state.servicios[index].falta_deseo)});
-        this.setState({serv_info_falta_deseo:this.state.servicios[index].info_falta_deseo});
-        this.setState({serv_enfermedades_transmision:this.valueToBoolean(this.state.servicios[index].enfermedades_transmision)});
-        this.setState({serv_info_enfermedades_transmision:this.state.servicios[index].info_enfermedades_transmision});
-
+        this.setState({serv_tratamiento: this.state.servicios[index].tratamiento});
+        this.setState({serv_info_tratamiento: this.state.servicios[index].info_tratamiento});
+        this.setState({serv_fecha_inicio_tratamiento: this.state.servicios[index].fecha_inicio_tratamiento});
+        this.setState({serv_fecha_fin_tratamiento: this.state.servicios[index].fecha_fin_tratamiento});
+        this.setState({serv_id: this.state.servicios[index].id});
+        this.setState({serv_id_cliente: this.state.servicios[index].id_cliente});
     }
 
     valueToBoolean (valor){
         if ( valor === "S")
          {
              return true;
-        }
-        else if ( valor ==="N") {
-             return false; 
         }else{
             return false;
         }
     }
 
     booleanToValue (valor){
+        
         if ( valor) { return "S"; }
-        else if ( valor === "S"){ return true; }
+        else { return "N"; }
     }
 
 
 
     render() {
         return (
-            <form onSubmit={this.handlerSubmit}>
-                 <section>
-                <div className="panel">
+            
+            <section>
+            <form name="formClientes" onSubmit={this.handlerSubmitClientes} >
+            <div className="panel">
+             
                 <h4 className="formulario-titulo">Datos Cliente<hr/></h4>
                    <div className="form-item">
                         <label htmlFor="nombre">Nombre : </label>
@@ -281,20 +341,137 @@ export default class Formulario extends Component {
                         value={this.state.cuenta_bancaria} onChange={ e => this.setState({cuenta_bancaria:e.target.value})} />
                     </div>
 
-                    <div className="form-item">
-                        <label htmlFor="observaciones">Observaciones : </label>
+                   
+                        
                         <textarea name="observaciones" id="observaciones" value={this.state.observaciones}
-                       onChange={ e => this.setState({observaciones:e.target.value})}></textarea>
+                       onChange={ e => this.setState({observaciones:e.target.value})} placeholder="Observaciones al cliente"></textarea>
+                    
+                    
+                    <div className="form-item">
+                            <label htmlFor="solicitud_informacion"> Solicitud de información : </label>
+                            <input name="solicitud_informacion" id="solicitud_informacion" type="checkbox" 
+                            checked={this.state.solicitud_informacion} 
+                            onChange={ e => this.setState({solicitud_informacion: !this.state.solicitud_informacion})}
+                            value={this.booleanToValue(this.state.solicitud_informacion)}/> 
                     </div>
+                    
+                        <textarea name="info_solicitud_informacion" id="info_solicitud_informacion"
+                            value={this.state.info_solicitud_informacion} onChange={ e => this.setState({info_solicitud_informacion:e.target.value})}> 
+                         </textarea>
 
-                </div>
-                <div className="panel">
+
+                    <div className="form-item">
+                            <label htmlFor="presupuesto"> Solicitud de presupuesto : </label>
+                            <input name="presupuesto" id="presupuesto" type="checkbox" 
+                            checked={this.state.presupuesto} 
+                            onChange={ () => this.setState({presupuesto: !this.state.presupuesto})}
+                            value={this.booleanToValue(this.state.presupuesto)}/> 
+                    </div>
+                    
+                        <textarea name="info_presupuesto" id="info_presupuesto"
+                            value={this.state.info_presupuesto} onChange={ e => this.setState({info_presupuesto:e.target.value})}> 
+                         </textarea>     
+                   
+
+                    <div className="form-item">
+                            <label htmlFor="contratacion_servicio"> Contratación servicio : </label>
+                            <input name="contratacion_servicio" id="contratacion_servicio" type="checkbox" 
+                            checked={this.state.contratacion_servicio} 
+                            onChange={ () => this.setState({contratacion_servicio:!this.state.contratacion_servicio})}
+                            value={this.booleanToValue(this.state.contratacion_servicio)}/> 
+
+                    </div>
+                    
+                        <textarea name="info_contratacion_servicio" id="info_contratacion_servicio"
+                        value={this.state.info_contratacion_servicio} onChange={ e => this.setState({info_contratacion_servicio:e.target.value})}>
+                        </textarea>
+                  
+
+                    <div className="form-item">
+                            <label htmlFor="eyaculacion_precoz"> Eyaculación precoz : </label>
+                            <input name="eyaculacion_precoz" id="eyaculacion_precoz" type="checkbox" 
+                            checked={this.state.eyaculacion_precoz} 
+                            onChange={ () => this.setState({eyaculacion_precoz:!this.state.eyaculacion_precoz})}
+                            value={this.booleanToValue(this.state.eyaculacion_precoz)}/> 
+
+                    </div>
+                    
+                        <textarea name="info_eyaculacion_precoz" id="info_eyaculacion_precoz"
+                        value={this.state.info_eyaculacion_precoz} onChange={ e => this.setState({info_eyaculacion_precoz:e.target.value})}>
+                             </textarea>
+                 
+
+                    <div className="form-item">
+                            <label htmlFor="curvatura_pene"> Curvatura del pene : </label>
+                            <input name="curvatura_pene" id="curvatura_pene" type="checkbox" 
+                             checked={this.state.curvatura_pene} 
+                             onChange={ () => this.setState({curvatura_pene:!this.state.curvatura_pene})}
+                             value={this.booleanToValue(this.state.curvatura_pene)}/>
+
+                    </div>
+                   
+                        <textarea name="info_curvatura_pene" id="info_curvatura_pene"
+                         value={this.state.info_curvatura_pene} onChange={ e => this.setState({info_curvatura_pene:e.target.value})}>
+                        </textarea>
+                  
+
+                    <div className="form-item">
+                            <label htmlFor="disfuncion_erectil"> Disfunción eréctil : </label>
+                            <input name="disfuncion_erectil" id="disfuncion_erectil" type="checkbox" 
+                             checked={this.state.disfuncion_erectil} 
+                             onChange={ () => this.setState({disfuncion_erectil:!this.state.disfuncion_erectil})}
+                             value={this.booleanToValue(this.state.disfuncion_erectil)}/> 
+
+                    </div>
+                    
+                        <textarea name="info_disfuncion_erectil" id="info_disfuncion_erectil"
+                        value={this.state.info_disfuncion_erectil} onChange={ e => this.setState({info_disfuncion_erectil:e.target.value})}>
+                         </textarea>
+                   
+
+                    <div className="form-item">
+                            <label htmlFor="falta_deseo"> Falta de deseo : </label>
+                            <input name="falta_deseo" id="falta_deseo" type="checkbox" 
+                            checked={this.state.falta_deseo} 
+                            onChange={ () => this.setState({falta_deseo: !this.state.falta_deseo})}
+                            value={this.booleanToValue(this.state.falta_deseo)}/>
+
+                    </div>
+                    
+                        <textarea name="info_falta_deseo" id="info_falta_deseo"
+                         value={this.state.info_falta_deseo} onChange={ e => this.setState({info_falta_deseo:e.target.value})}>
+                        </textarea>
+                    
+
+                    <div className="form-item">
+                            <label htmlFor="enfermedades_transmision"> Enfermedades de transmisión : </label>
+                            <input name="enfermedades_transmision" id="enfermedades_transmision" type="checkbox" 
+                            checked={this.state.enfermedades_transmision} 
+                            onChange={ () => this.setState({enfermedades_transmision: !this.state.enfermedades_transmision})}
+                            value={this.state.enfermedades_transmision ? "S" : "N"}/>
+
+                    </div>
+                   
+                        <textarea name="info_enfermedades_transmision" id="info_enfermedades_transmision"
+                         value={this.state.info_enfermedades_transmision} onChange={ e => this.setState({info_enfermedades_transmision:e.target.value})}>
+                        </textarea>
+
+
+
+                    <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
+                    <input id="fecha_alta" name="fecha_alta" type="hidden" value={Util.hoyToJava()}/>
+                    <input type="submit" value="Guardar" /> 
+              </div>       
+             </form>
+           
+            <div className="panel">
+             <form name="formDirecciones" onSubmit={this.handlerSubmitDirecciones}>
                 <h4 className="formulario-titulo">Direcciones<hr/></h4>
                     <div className="formulario-tabla" style={this.state.nueva_direccion ? {display:"contents"} : {display:"none"}} >
                        
                         <div className="form-item">
-                            <label htmlFor="tipodomicilio">Tipo de domicilio : </label>
-                            <select name="tipodomicilio" id="tipodomicilio"
+                            <label htmlFor="tipo_domicilio">Tipo de domicilio : </label>
+                            <select name="tipo_domicilio" id="tipo_domicilio"
                             onChange={ e => this.setState({dir_tipo_domicilio:e.target.value})} 
                             value={this.state.dir_tipo_domicilio}>
                                 <option value=''>- Seleccione el tipo de domicilio - </option>
@@ -306,8 +483,8 @@ export default class Formulario extends Component {
                         </div>
 
                         <div className="form-item">
-                            <label htmlFor="tipovia">Tipo de Vía : </label>
-                            <select name="tipovia" id="tipovia"
+                            <label htmlFor="tipo_via">Tipo de Vía : </label>
+                            <select name="tipo_via" id="tipo_via"
                             onChange={ e => this.setState({dir_tipo_via:e.target.value})} 
                             value={this.state.dir_tipo_via} >
                                 <option value=''>- Seleccione el tipo de Vía - </option>
@@ -362,8 +539,11 @@ export default class Formulario extends Component {
                             <input name="direccion" size="80" id="direccion" type="text" 
                              value={this.state.dir_direccion} onChange={ e => this.setState({dir_direccion:e.target.value})}/>
                         </div>
-
+                        <input id="id" name="id" type="hidden" value={this.state.dir_id}/>
+                        <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
+                        <input type="submit" value="Guardar" /> 
                     </div>
+                </form>
                     <div className="formulario-tabla" style={this.state.nueva_direccion ? {display:"none"} : {display:"block"}}>
                     
                     <table>
@@ -383,7 +563,7 @@ export default class Formulario extends Component {
                         </thead>
                         <tbody>
                         {this.state.direcciones.map((item, index)=>(
-                            <tr key = {item.id}>
+                            <tr key = {item.dir_id}>
                                 <td className="listado-enlace"><a title="editar" onClick={() => this.editDireccion(index)}>{item.id}</a></td>
                                 <td>{item.tipo_domicilio}</td>
                                 <td>{item.tipo_via}</td>
@@ -402,91 +582,47 @@ export default class Formulario extends Component {
                     </div>
                 </div>    
                 <div className="panel">
+               
                 <h4 className="formulario-titulo">Servicios<hr/></h4>
-                    <div className="formulario-tabla" style={this.state.nuevo_servicio ? {display:"contents"} : {display:"none"}}>
-                  
-                    <div className="form-item">
-                            <label htmlFor="solicitud_informacion"> Solicitud de información : </label>
-                            <input name="solicitud_informacion" id="solicitud_informacion" type="checkbox" 
-                            defaultChecked={this.state.serv_solicitud_informacion} onChange={ e => this.setState({serv_solicitud_informacion:e.target.value})}/> 
-                    </div>
-                    
-                        <textarea name="info_solicitud_informacion" id="info_solicitud_informacion"
-                            value={this.state.serv_info_solicitud_informacion} onChange={ e => this.setState({serv_info_solicitud_informacion:e.target.value})}> 
-                         </textarea>
-                   
+                <div className="formulario-tabla" style={this.state.nuevo_servicio ? {display:"contents"} : {display:"none"}}>
 
-                    <div className="form-item">
-                            <label htmlFor="contratacion_servicio"> Contratación servicio : </label>
-                            <input name="contratacion_servicio" id="contratacion_servicio" type="checkbox" 
-                            defaultChecked={this.state.serv_contratacion_servicio} onChange={ e => this.setState({serv_contratacion_servicio:e.target.value})}/> 
 
-                    </div>
+                <form name="formServicios" onSubmit={this.handlerSubmitServicios}>
                     
-                        <textarea name="info_contratacion_servicio" id="info_contratacion_servicio"
-                        value={this.state.serv_info_contratacion_servicio} onChange={ e => this.setState({serv_info_contratacion_servicio:e.target.value})}>
+                    <div className="form-item">
+                            <label htmlFor="tratamiento">Tratamiento : </label>
+                            <select name="tratamiento" id="tratamiento" onChange={ e => this.setState({serv_tratamiento:e.target.value})} value={this.state.serv_tratamiento}>
+                                <option value=''>- Seleccione el tratamiento - </option>
+                                <option value='EYACULACION_PRECOZ'>EYACULACION PRECOZ</option>
+                                <option value='CURVATURA_PENE'>CURVATURA PENE</option>
+                                <option value='DISFUNCION_ERECTIL'>DISFUNCION ERECTIL</option>
+                                <option value='FALTA_DESEO'>FALTA DE DESEO</option>
+                                <option value='ENFERMEDADES_TRANSMISION'>ENFERMEDADES DE TRANSMISION</option>
+                                <option value='OTROS_TRATAMIENTOS'>OTROS TRATAMIENTOS</option>
+                            </select>
+                    </div>
+
+                        <textarea name="info_tratamiento" id="info_tratamiento"
+                         value={this.state.serv_info_tratamiento} onChange={ e => this.setState({serv_info_tratamiento:e.target.value})}>
                         </textarea>
-                  
 
                     <div className="form-item">
-                            <label htmlFor="eyaculacion_precoz"> Eyaculación precoz : </label>
-                            <input name="eyaculacion_precoz" id="eyaculacion_precoz" type="checkbox" 
-                            defaultChecked={this.state.serv_eyaculacion_precoz} onChange={ e => this.setState({serv_eyaculacion_precoz:e.target.value})}/> 
-
-                    </div>
-                    
-                        <textarea name="info_eyaculacion_precoz" id="info_eyaculacion_precoz"
-                        value={this.state.serv_info_eyaculacion_precoz} onChange={ e => this.setState({serv_info_eyaculacion_precoz:e.target.value})}>
-                             </textarea>
-                 
+                        <label htmlFor="fecha_inicio_tratamiento">Fecha inicio tratamiento :</label>
+                        <input name="fecha_inicio_tratamiento"  id="fecha_inicio_tratamiento" type="date" 
+                        value={Util.fromdateJavaToDate (this.state.serv_fecha_inicio_tratamiento)} onChange={ e => this.setState({serv_fecha_inicio_tratamiento:e.target.value})} />
+                    </div>    
 
                     <div className="form-item">
-                            <label htmlFor="curvatura_pene"> Curvatura del pene : </label>
-                            <input name="curvatura_pene" id="curvatura_pene" type="checkbox" 
-                             defaultChecked={this.state.serv_curvatura_pene} onChange={ e => this.setState({serv_curvatura_pene:e.target.value})}/> 
-
+                        <label htmlFor="fecha_fin_tratamiento">Fecha fin tratamiento :</label>
+                        <input name="fecha_fin_tratamiento"  id="fecha_fin_tratamiento" type="date" 
+                        value={Util.fromdateJavaToDate (this.state.serv_fecha_fin_tratamiento)} onChange={ e => this.setState({serv_fecha_fin_tratamiento:e.target.value})} />
                     </div>
-                   
-                        <textarea name="info_curvatura_pene" id="info_curvatura_pene"
-                         value={this.state.serv_info_curvatura_pene} onChange={ e => this.setState({serv_info_curvatura_pene:e.target.value})}>
-                        </textarea>
-                  
 
-                    <div className="form-item">
-                            <label htmlFor="disfuncion_erectil"> Disfunción eréctil : </label>
-                            <input name="disfuncion_erectil" id="disfuncion_erectil" type="checkbox" 
-                             defaultChecked={this.state.serv_disfuncion_erectil} onChange={ e => this.setState({serv_disfuncion_erectil:e.target.value})}/> 
+                        <input id="id" name="id" type="hidden" value={this.state.serv_id}/>
+                        <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
+                        <input type="submit" value="Guardar" /> 
 
-                    </div>
-                    
-                        <textarea name="info_disfuncion_erectil" id="info_disfuncion_erectil"
-                        value={this.state.serv_info_disfuncion_erectil} onChange={ e => this.setState({serv_info_disfuncion_erectil:e.target.value})}>
-                         </textarea>
-                   
-
-                    <div className="form-item">
-                            <label htmlFor="falta_deseo"> Falta de deseo : </label>
-                            <input name="falta_deseo" id="falta_deseo" type="checkbox" 
-                            defaultChecked={this.state.serv_falta_deseo} onChange={ e => this.setState({serv_falta_deseo:e.target.value})}/>
-
-                    </div>
-                    
-                        <textarea name="info_falta_deseo" id="info_falta_deseo"
-                         value={this.state.serv_info_falta_deseo} onChange={ e => this.setState({serv_info_falta_deseo:e.target.value})}>
-                        </textarea>
-                    
-
-                    <div className="form-item">
-                            <label htmlFor="enfermedades_transmision"> Enfermedades de transmisión : </label>
-                            <input name="enfermedades_transmision" id="enfermedades_transmision" type="checkbox" 
-                            defaultChecked={this.state.enfermedades_transmision} onChange={ e => this.setState({serv_enfermedades_transmision:e.target.value})}/>
-
-                    </div>
-                   
-                        <textarea name="info_enfermedades_transmision" id="info_enfermedades_transmision"
-                         value={this.state.serv_info_enfermedades_transmision} onChange={ e => this.setState({serv_info_enfermedades_transmision:e.target.value})}>
-                        </textarea>
-    
+                </form>
                     
                 </div>
                 <div className="formulario-tabla" style={this.state.nuevo_servicio ? {display:"none"} : {display:"contents"}}>
@@ -495,28 +631,20 @@ export default class Formulario extends Component {
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Presupuesto</th>
-                                <th>Solicitud informacion</th>
-                                <th>Contratación</th>
-                                <th>Eyaculación precoz</th>
-                                <th>Curvatura pene</th>
-                                <th>Disfunción eréctil</th>
-                                <th>Falta de deseo</th>
-                                <th>Enfermedades de transmisión</th>
+                                <th>Tratamiento</th>
+                                <th>Observaciones tratamiento</th>
+                                <th>Fecha inicio de tratamiento</th>
+                                <th>Fecha fin de tratamiento</th>
                             </tr>
                         </thead>
                         <tbody>
                         {this.state.servicios.map((item, index)=>(
                             <tr key = {item.id}>
                                 <td className="listado-enlace"><a onClick={ () => this.editServicio(index)} >{item.id}</a></td>
-                                <td>({item.presupuesto})  {item.info_presupuesto}  </td>
-                                <td>({item.solicitud_informacion})  {item.info_solicitud_informacion}</td>
-                                <td>({item.contratacion_servicio})  {item.info_contratacion_servicio}</td>
-                                <td>({item.eyaculacion_precoz})  {item.info_eyaculacion_precoz}</td>
-                                <td>({item.curvatura_pene})  {item.info_curvatura_pene}</td>
-                                <td>({item.disfuncion_erectil})  {item.info_disfuncion_erectil}</td>
-                                <td>({item.falta_deseo})  {item.info_falta_deseo}</td>
-                                <td>({item.enfermedades_transmision})  {item.info_enfermedades_transmision}</td>
+                                <td>{item.tratamiento}  </td>
+                                <td>{item.info_tratamiento}</td>
+                                <td>{Util.fromdateJavaToJS(item.fecha_inicio_tratamiento)}</td>
+                                <td>{Util.fromdateJavaToJS(item.fecha_fin_tratamiento)} </td>
                             </tr>
                             ))}
                         </tbody>
@@ -524,8 +652,7 @@ export default class Formulario extends Component {
                         <button onClick={() =>this.setState({nuevo_servicio:true})}>Nuevo servicio</button>
                         </div>
                     </div>
-                </section>
-            </form>
+        </section>
             
         )
     }

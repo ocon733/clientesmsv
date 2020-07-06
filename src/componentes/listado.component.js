@@ -29,10 +29,8 @@ export default class Listado extends Component {
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Cliente MSV</th>
+                        <th>Id</th>                
                         <th>Nombre</th>
-                        <th>Apellidos</th>
                         <th>DOI</th>
                         <th>Teléfono</th>
                         <th>Provincia</th>
@@ -44,9 +42,7 @@ export default class Listado extends Component {
                 {this.state.items.map(item=>(
                     <tr key = {item[0]}>
                         <td className="listado-enlace"><a title="Ver detalle" href={this.irDetalle(item[0])}>{item[0]}</a></td>
-                        <td>{item[1]}</td>
-                        <td>{item[2]}</td>
-                        <td>{item[3]} {item[4]}</td>
+                        <td className="listado-left">{item[3]} {item[4]}, {item[2]}</td>
                         <td>{item[5]}: {item[6]}</td>
                         <td>{item[7]}</td>
                         <td>{item[8]}</td>
