@@ -7,7 +7,7 @@ export default class Formulario extends Component {
     constructor(props){
         super(props);
        this.state = {
-        id_cliente : 0,
+        id_cliente : null,
         nombre : "",
         fecha_alta: "",
         fecha_baja: "",
@@ -47,6 +47,7 @@ export default class Formulario extends Component {
         servicios:[],
         nueva_direccion:true,
         nuevo_servicio:true,
+        nuevo_cliente:true,
 
         dir_tipo_via:"",
         dir_direccion:"",
@@ -139,6 +140,7 @@ export default class Formulario extends Component {
 
                     this.setState({nueva_direccion:false});
                     this.setState({nuevo_servicio:false});
+                    this.setState({nuevo_cliente:false});
 
                 }
 
@@ -239,7 +241,7 @@ export default class Formulario extends Component {
         return (
             
             <section>
-            <form name="formClientes" onSubmit={this.handlerSubmitClientes} >
+            <form id="formClientes" name="formClientes" onSubmit={this.handlerSubmitClientes}>
             <div className="panel">
              
                 <h4 className="formulario-titulo">Datos Cliente<hr/></h4>
@@ -460,16 +462,18 @@ export default class Formulario extends Component {
 
                     <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
                     <input id="fecha_alta" name="fecha_alta" type="hidden" value={Util.hoyToJava()}/>
-                    <input type="submit" value="Guardar" /> 
+
+                    <button type="submit">Guardar</button>
+
               </div>       
              </form>
            
              <form name="formDirecciones" onSubmit={this.handlerSubmitDirecciones}>
-                <div className="panel" style={this.state.nueva_direccion ? {display:"flex"} : {display:"none"}}>
+                <div className="panel" style={this.state.nueva_direccion && !this.state.nuevo_cliente ? {display:"flex"} : {display:"none"}}>
              
                 <h4 className="formulario-titulo">Direcciones<hr/></h4>
                        
-                        <div className="form-item">
+                        <div className="form-item" >
                             <label htmlFor="tipo_domicilio">Tipo de domicilio : </label>
                             <select name="tipo_domicilio" id="tipo_domicilio"
                             onChange={ e => this.setState({dir_tipo_domicilio:e.target.value})} 
@@ -541,11 +545,15 @@ export default class Formulario extends Component {
                         </div>
                         <input id="id" name="id" type="hidden" value={this.state.dir_id}/>
                         <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
-                        <input type="submit" value="Guardar" /> 
+                        <div className="formulario-tabla">
+                            
+                            <button type="submit">Guardar</button>
+                            <button type="button" onClick={() => this.setState({nueva_direccion:false})}>Cancelar</button>
+                        </div>
                 </div>   
-                </form>
+            </form>
                 
-                 <div className="panel" style={this.state.nueva_direccion ? {display:"none"} : {display:"flex"}}>
+                 <div className="panel" style={this.state.nueva_direccion || this.state.nuevo_cliente ? {display:"none"} : {display:"flex"}}>
                     
                     <table>
                         <thead>
@@ -563,8 +571,8 @@ export default class Formulario extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {this.state.direcciones.map((item, index)=>(
-                            <tr key = {item.dir_id}>
+                        {this.state.direcciones.map((item,index )=>(
+                            <tr key = {index}>
                                 <td className="listado-enlace"><a title="editar" onClick={() => this.editDireccion(index)}>{item.id}</a></td>
                                 <td>{item.tipo_domicilio}</td>
                                 <td>{item.tipo_via}</td>
@@ -579,11 +587,13 @@ export default class Formulario extends Component {
                             ))}
                         </tbody>
                         </table>
-                        <button onClick={() => this.setState({nueva_direccion:true})}>Nueva dirección</button> 
+                        <div className="formulario-tabla">
+                            <button onClick={() => this.setState({nueva_direccion:true})}>Nueva dirección</button>
+                        </div>
                 </div>
                 
                 <form name="formServicios" onSubmit={this.handlerSubmitServicios}>
-                <div className="panel" style={this.state.nuevo_servicio ? {display:"flex"} : {display:"none"}}>
+                <div className="panel" style={this.state.nuevo_servicio && !this.state.nuevo_cliente ? {display:"flex"} : {display:"none"}}>
                
                 <h4 className="formulario-titulo">Servicios<hr/></h4>
                     
@@ -618,12 +628,15 @@ export default class Formulario extends Component {
 
                         <input id="id" name="id" type="hidden" value={this.state.serv_id}/>
                         <input id="id_cliente" name="id_cliente" type="hidden" value={this.state.id_cliente}/>
-                        <div className="formulario-tabla"><input type="submit" value="Guardar" /> </div>
+                        <div className="formulario-tabla">
+                            <button type="submit" >Guardar</button> 
+                            <button type="button" onClick={() =>this.setState({nuevo_servicio:false})}>Cancelar</button> 
+                            </div>
                   </div>
                 </form>
                     
                 
-                <div className="panel" style={this.state.nuevo_servicio ? {display:"none"} : {display:"flex"}}>
+                <div className="panel" style={this.state.nuevo_servicio || this.state.nuevo_cliente ? {display:"none"} : {display:"flex"}}>
                    
                     <table>
                         <thead>
@@ -637,7 +650,7 @@ export default class Formulario extends Component {
                         </thead>
                         <tbody>
                         {this.state.servicios.map((item, index)=>(
-                            <tr key = {item.id}>
+                            <tr key = {index}>
                                 <td className="listado-enlace"><a onClick={ () => this.editServicio(index)} >{item.id}</a></td>
                                 <td>{item.tratamiento}  </td>
                                 <td>{item.info_tratamiento}</td>
@@ -647,7 +660,9 @@ export default class Formulario extends Component {
                             ))}
                         </tbody>
                         </table>
-                        <button onClick={() =>this.setState({nuevo_servicio:true})}>Nuevo servicio</button>
+                        <div className="formulario-tabla">
+                            <button onClick={() =>this.setState({nuevo_servicio:true})}>Nuevo servicio</button>
+                        </div>
                     </div>
         </section>
             

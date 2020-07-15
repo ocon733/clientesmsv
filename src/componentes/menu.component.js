@@ -11,7 +11,7 @@ export default class Menu extends Component {
                 </div>
                <span className="menu-separador">|</span>
                 <div className="menu-item">
-                    <Link to="/formulario">Formulario</Link>
+                    <Link to="/formulario">Nuevo</Link>
                 </div>
                 <span className="menu-separador">|</span>
                 <div className="menu-item">

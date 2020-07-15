@@ -1,11 +1,7 @@
-+ front-end actualizar datos de un cliente
-+ back-end actualizar datos de un  cliente
-- front-end actualizar datos de un servicio de cliente
-- back-end actualizar datos de un servicio de cliente
-
-+ front-end actualizar datos de una dirección de cliente
-+ back-end actualizar datos de una dirección de cliente
-
-- añadir fecha inicio tratamiento, fecha fin tratamiento
-
-+ gestion clientes completa
++ mejoras estilos
+- buscador con filtro por nif y por telefono
+- optimización de código
+- mejoras componentes
+- redux
+- login de acceso
+- cookies ??
