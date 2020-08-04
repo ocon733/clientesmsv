@@ -1,7 +1,2 @@
-+ mejoras estilos
-- buscador con filtro por nif y por telefono
-- optimización de código
-- mejoras componentes
-- redux
-- login de acceso
-- cookies ??
+- arreglar busqueda
+- cambiar a función con hooks

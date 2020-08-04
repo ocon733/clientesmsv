@@ -1,15 +1,22 @@
-table {
-    width: 90% ;
-    margin: 20px ;
+
+.MuiTableContainer-root {
+    width: 90% !important;
+    margin: 20px !important;
    
     text-align: center;
 }
 
-th{
+.MuiTableCell-head{
    background-color:rgba(41, 134, 226, 0.7);
-   /*font-weight: normal;*/
-   color: white;
+   color: white !important;
+   font-weight: bold !important;
 }
+
+.MuiTableCell-sizeSmall{
+    padding-right: 0px !important;
+}
+
+
 td {
     border-style: inset;
     border-width: 1px;
@@ -19,11 +26,6 @@ td {
     border-right: white;
 }
 
-.listado-enlace{
-    background-color: rgba(41, 134, 226, 0.7);
-    font-weight: bold;
-    cursor: pointer;
-}
 
 .listado-left{
     text-align: left;

@@ -573,7 +573,7 @@ export default class Formulario extends Component {
                         <tbody>
                         {this.state.direcciones.map((item,index )=>(
                             <tr key = {index}>
-                                <td className="listado-enlace"><a title="editar" onClick={() => this.editDireccion(index)}>{item.id}</a></td>
+                                <td className="listado-enlace"><a href="#" title="editar" onClick={() => this.editDireccion(index)}>{item.id}</a></td>
                                 <td>{item.tipo_domicilio}</td>
                                 <td>{item.tipo_via}</td>
                                 <td>{item.direccion}</td>
@@ -651,7 +651,7 @@ export default class Formulario extends Component {
                         <tbody>
                         {this.state.servicios.map((item, index)=>(
                             <tr key = {index}>
-                                <td className="listado-enlace"><a onClick={ () => this.editServicio(index)} >{item.id}</a></td>
+                                <td className="listado-enlace"><a href="#" onClick={ () => this.editServicio(index)} >{item.id}</a></td>
                                 <td>{item.tratamiento}  </td>
                                 <td>{item.info_tratamiento}</td>
                                 <td>{Util.fromdateJavaToJS(item.fecha_inicio_tratamiento)}</td>

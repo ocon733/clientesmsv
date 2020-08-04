@@ -1,31 +1,61 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import './listado.css';
 import Util from '../util_fechas.js';
+import Filtro from './filtro.component';
+import { Button } from '@material-ui/core';
 
-export default class Listado extends Component {
-    state = {
-        items : [],
-        nombre:"",
-        apellido1:"",
-        email:"",
-        tlf_contacto:"",
-        doi:""
-    }
-  
-    componentDidMount(){
-     
-/*
-        fetch("http://localhost:8081/lista")
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+
+
+const Listado = () => {
+
+    const [items, setItems] = useState([]);
+    const [next, setNext] = useState(false);
+    const [pag, setPag] = useState(1);
+
+    useEffect( () => {
+        consultarClientes(pag);
+    },[]);
+
+    
+
+
+    const consultarClientes = (p) => {
+        fetch("http://localhost:8081/lista/"+ p)
         .then(res=> res.json())
         .then(res => {
-            this.setState({items: res});
+
+            if ( res.length === 6){
+                setNext(true);
+            }else{
+                setNext(false);
+            }
+            setItems(res);
         })
-*/
     }
 
-    irDetalle = (id) => "/cliente/" + id;
+    function siguiente(){
+        
+        consultarClientes(pag + 1);
+        setPag ( pag + 1);
+    };
 
-    buscarFiltro(e){
+    function previo() {
+        
+        consultarClientes(pag - 1);
+        setPag ( pag - 1);
+    }
+
+    function irDetalle (id) {window.location.href =  "/cliente/" + id;} 
+
+    const buscarFiltro = (e) => {
         e.preventDefault();
         const data = new FormData ( e.target);
         fetch("http://localhost:8081/filtro", {
@@ -34,80 +64,51 @@ export default class Listado extends Component {
         })
         .then(res=> res.json())
         .then(res => {
-            this.setState({items: res});
-
+            setPag (1);
+            setItems(res);
+            setNext(false);
         });
     }
 
-    render() {
-        return (
+    return (
           <div>
-              <form onSubmit={this.buscarFiltro.bind(this)}>
-            <div className="panel">
-            <h4>&nbsp;Búsqueda de clientes MSV<hr/></h4>
-                    <div className="form-item">
-                        <label htmlFor="nombre">Nombre : </label>
-                        <input name="nombre" size="50"  id="nombre" type="text" 
-                        onChange={ e => this.setState({nombre:e.target.value})} />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="apellido1">Primer apellidos : </label>
-                        <input name="apellido1" size="50"  id="apellido1" type="text" 
-                        onChange={ e => this.setState({apellido1:e.target.value})} />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="apellido2">Segundo apellido : </label>
-                        <input name="apellido2" size="50"  id="apellido2" type="text" 
-                        onChange={ e => this.setState({apellido2:e.target.value})} />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="tlf_contacto">Teléfono de contacto : </label>
-                        <input name="tlf_contacto" size="50"  id="tlf_contacto" type="text" 
-                        onChange={ e => this.setState({tlf_contacto:e.target.value})} />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="doi">D.O.I. : </label>
-                        <input name="doi" size="50"  id="doi" type="text" 
-                        onChange={ e => this.setState({doi:e.target.value})} />
-                    </div>
-                    <div className="form-item">
-                        <label htmlFor="email_contacto">E-mail : </label>
-                        <input name="email_contacto" size="50"  id="email_contacto" type="text" 
-                        onChange={ e => this.setState({email_contacto:e.target.value})} />
-                    </div>
-                    <div className="formulario-tabla">
-                            <button type="submit">Buscar</button>
-                    </div>
-            </div>
-            </form>
-            <h4>&nbsp;Listado de clientes MSV<hr/></h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>                
-                        <th>Nombre</th>
-                        <th>DOI</th>
-                        <th>Teléfono</th>
-                        <th>Provincia</th>
-                        <th>Localidad</th>
-                        <th>Fecha alta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {this.state.items.map(item=>(
-                    <tr key = {item[0]}>
-                        <td className="listado-enlace"><a title="Ver detalle" href={this.irDetalle(item[0])}>{item[0]}</a></td>
-                        <td className="listado-left">{item[3]} {item[4]}, {item[2]}</td>
-                        <td>{item[5]}: {item[6]}</td>
-                        <td>{item[7]}</td>
-                        <td>{item[8]}</td>
-                        <td>{item[9]}</td>
-                        <td>{Util.fromdateJavaToJS(item[10])}</td>
-                    </tr>    
+              <Filtro  buscarFiltro={buscarFiltro}  consultarClientes={consultarClientes}/>
+           
+
+            <TableContainer  component={Paper}>
+                <Table aria-label="simple table" size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Id</TableCell>
+                            <TableCell align="center">Nombre</TableCell>
+                            <TableCell align="center">DOI</TableCell>
+                            <TableCell align="center">Teléfono</TableCell>
+                            <TableCell align="center">Provincia</TableCell>
+                            <TableCell align="center">Localidad</TableCell>
+                            <TableCell align="center">Fecha alta</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                {items.map(item=>(
+                    <TableRow  key = {item[0]}>
+                        
+                        <TableCell  ><Button variant="contained" size="small" onClick={() => irDetalle(item[0])}  color="primary" title="Ver detalle">{item[0]}</Button></TableCell >
+                        <TableCell  className="listado-left">{item[3]} {item[4]}, {item[2]}</TableCell >
+                        <TableCell >{item[5]}: {item[6]}</TableCell >
+                        <TableCell >{item[7]}</TableCell >
+                        <TableCell >{item[8]}</TableCell >
+                        <TableCell >{item[9]}</TableCell >
+                        <TableCell >{Util.fromdateJavaToJS(item[10])}</TableCell >
+                    </TableRow >    
                     ))}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
+            </TableContainer>
+            {pag >= 2 ?  <Button size="small" onClick={() => previo()}  color="primary">Anterior</Button> : null}
+            {next ? <Button size="small" onClick={() => siguiente()}  color="primary">Siguiente</Button> : null }
             </div>
         )
-    }
+    
 }
+
+export default Listado
