@@ -1,4 +1,0 @@
-- separar en componentes
-
-
-
