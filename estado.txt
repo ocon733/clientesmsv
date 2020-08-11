@@ -1,2 +1,2 @@
-- arreglar busqueda
-- cambiar a función con hooks
+- separar en componentes
+
