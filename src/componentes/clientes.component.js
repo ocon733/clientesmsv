@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Util from '../util_fechas.js';
 import { Paper, Grid, TextField, MenuItem, Select, FormControl, InputLabel, FormControlLabel, Checkbox, Button } from '@material-ui/core';
 import './clientes.css';
+import { useSelector } from 'react-redux';
 
-const Clientes = (props) => {
+const Clientes = () => {
 
+    /*
     const [cliente, setCliente] = useState({
         id_cliente : null,
         nombre : "",
@@ -42,80 +44,11 @@ const Clientes = (props) => {
         enfermedades_transmision:"N",
         info_enfermedades_transmision:""
     });
-
- /* 
-    useEffect ( () => {  
-      
-        //this.montado = true;     
-        if ( props.match.params.id !== undefined){
-            fetch("http://localhost:8081/cliente/" + props.match.params.id )
-            .then(res=> res.json())
-            .then(res => {
-                
-               // if ( this.montado){
-                    
-                   
-                setCliente({ ...cliente, id_cliente:res.id_cliente});
-                setCliente({ ...cliente, fecha_alta:res.fecha_alta});
-                    setCliente({ ...cliente, fecha_baja:res.fecha_baja});
-                    setCliente({ ...cliente, nombre:res.nombre});
-                    setCliente({ ...cliente, apellido1:res.apellido1});
-                    setCliente({ ...cliente, apellido2:res.apellido2});
-                    setCliente({ ...cliente, fecha_nacimiento:res.fecha_nacimiento});
-                    setCliente({ ...cliente, sexo:res.sexo});
-                    setCliente({ ...cliente, doi:res.doi});
-                    setCliente({ ...cliente, tipo_doi:res.tipo_doi});
-                    setCliente({ ...cliente, tlf_contacto:res.tlf_contacto});
-                    setCliente({ ...cliente, tlf_trabajo:res.tlf_trabajo});
-                    setCliente({ ...cliente, tlf_casa:res.tlf_casa});
-                    setCliente({ ...cliente, tlf_otro:res.tlf_otro});
-                    setCliente({ ...cliente, email_contacto:res.email_contacto});
-                    setCliente({ ...cliente, email_trabajo:res.email_trabajo});
-                    setCliente({ ...cliente, email_particular:res.email_particular});
-                    setCliente({ ...cliente, cuenta_bancaria:res.cuenta_bancaria});
-                    setCliente({ ...cliente, observaciones:res.observaciones});
-
-               
-                    setCliente({ ...cliente, presupuesto:res.presupuesto});
-                    setCliente({ ...cliente, info_presupuesto : res.info_presupuesto});
-                    setCliente({ ...cliente, solicitud_informacion:res.solicitud_informacion});
-                    setCliente({ ...cliente, info_solicitud_informacion:res.info_solicitud_informacion});
-                    setCliente({ ...cliente, contratacion_servicio:res.contratacion_servicio});
-                    setCliente({ ...cliente, info_contratacion_servicio:res.info_contratacion_servicio});
-                    setCliente({ ...cliente, eyaculacion_precoz:res.eyaculacion_precoz});
-                    setCliente({ ...cliente, info_eyaculacion_precoz:res.info_eyaculacion_precoz});
-                    setCliente({ ...cliente, curvatura_pene:res.curvatura_pene});
-                    setCliente({ ...cliente, info_curvatura_pene:res.info_curvatura_pene});
-                    setCliente({ ...cliente, disfuncion_erectil:res.disfuncion_erectil});
-                    setCliente({ ...cliente, info_disfuncion_erectil:res.info_disfuncion_erectil});
-                    setCliente({ ...cliente, falta_deseo:res.falta_deseo});
-                    setCliente({ ...cliente, info_falta_deseo:res.info_falta_deseo});
-                    setCliente({ ...cliente, enfermedades_transmision:res.enfermedades_transmision});
-                    setCliente({ ...cliente, info_enfermedades_transmision:res.info_enfermedades_transmision});
-
-
-                    let dir = [];
-                    for (let i = 0; i < res.direcciones.length; i++) {        
-                        dir.push(res.direcciones[i]);
-                    }
-                    setCliente({direcciones:dir});
-
-                    let serv = [];
-                    for (let i = 0; i < res.servicios.length; i++) {
-                        serv.push(res.servicios[i]);
-                    }
-                    setCliente({servicios:serv});
-
-                    setCliente({nueva_direccion:false});
-                    setCliente({nuevo_servicio:false});
-                    setCliente({nuevo_cliente:false});
-
-               // }
-
-            })
-        }
-    },[]);
 */
+     const cliente =  useSelector( state => state.clientes.cliente);
+
+
+ 
     const handlerSubmitClientes = (e) => {
         
         e.preventDefault();
@@ -134,11 +67,13 @@ const Clientes = (props) => {
     }
 
     const handlerCliente = e => { 
-        setCliente({ ...cliente,  [e.target.name]:e.target.value    }) 
+      // setCliente({ ...cliente,  [e.target.name]:e.target.value    }) 
+      e.target.name = e.target.value ;
     }
     
     const handlerChecked = e => { 
-        setCliente({ ...cliente,  [e.target.name]:e.target.checked    }) 
+       // setCliente({ ...cliente,  [e.target.name]:e.target.checked    }) 
+       e.target.name = e.target.checked;
     }
     
 
@@ -154,7 +89,7 @@ const Clientes = (props) => {
 
                     <Grid item xs={6}  className="columnaForm">
                         <TextField className="formItem" name="nombre" required   id="nombre" label="Nombre"
-                                onChange={ handlerCliente} value={cliente.nombre} size="30"/>
+                                onChange={ handlerCliente} value={cliente.nombre} size="30" />
 
                         <FormControl className="formItem">
                             <InputLabel id="label_sexo">Indicar el sexo</InputLabel>
@@ -167,7 +102,7 @@ const Clientes = (props) => {
 
                        <TextField className="formItem" name="apellido2" id="apellido2" label="Segundo apellido"
                        value={cliente.apellido2} onChange={ handlerCliente} />
-
+              
                         <TextField className="formItem" name="doi" id="doi" label="D.O.I. "
                        value={cliente.doi} onChange={ handlerCliente} />
 
@@ -222,7 +157,7 @@ const Clientes = (props) => {
                         <TextField className="formItem" name="tlf_contacto" size="30"  id="tlf_contacto" label="Tlf. contacto"
                         value={cliente.tlf_contacto} onChange={ handlerCliente} />
 
-                        <TextField name="tlf_casa" size="30"  id="tlf_casa" label="Tlf. domicilio" 
+                        <TextField name="tlf_casa" size="30"  id="tlf_casa" InputLabel="Tlf. domicilio" 
                         value={cliente.tlf_casa} onChange={ handlerCliente}  className="formItem"/>
 
                         <TextField  className="formItem" name="email_contacto" size="30"  id="email_contacto" label="Email de contacto" 
@@ -383,7 +318,7 @@ const Clientes = (props) => {
                     <input id="id_cliente" name="id_cliente" type="hidden" value={cliente.id_cliente}/>
                     <input id="fecha_alta" name="fecha_alta" type="hidden" value={Util.hoyToJava()}/>
                     
-                    <div><Button variant="contained" color="primary" type="submit">Guardar</Button></div>
+                    <div><Button variant="contained" color="primary" type="submit" size="small">Guardar</Button></div>
                   </Paper> 
              </form>
         

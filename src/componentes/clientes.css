@@ -3,3 +3,8 @@
     margin: 20px !important;
     padding: 10px;
 }
+
+ label {
+  display: inline-block;
+  margin: 10px 0;
+} 

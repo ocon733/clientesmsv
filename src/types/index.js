@@ -1,0 +1,5 @@
+export const VALIDA_LOGIN = 'VALIDA_LOGIN';
+export const LOGIN_OK = "LOGIN_OK";
+export const CARGAR_DIRECCIONES = "CARGAR_DIRECCIONES"; 
+export const CARGAR_SERVICIOS = "CARGAR_SERVICIOS"; 
+export const CARGAR_CLIENTE = "CARGAR_CLIENTE"; 

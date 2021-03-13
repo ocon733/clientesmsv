@@ -87,7 +87,7 @@ const Filtro = (props) => {
                                  
                            </Grid> 
                         </Grid>  
-                        <div > <Button type="submit"  color="primary">Buscar</Button></div>
+                        <div > <Button type="submit" variant="contained"  color="primary">Buscar</Button></div>
                     </Paper>
                 </form>
             </AccordionDetails>

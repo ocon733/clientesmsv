@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './listado.css';
 import Util from '../util_fechas.js';
 import Filtro from './filtro.component';
